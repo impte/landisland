@@ -21,8 +21,19 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	loginResponse := biz.Login(loginRequest)
-	c.JSON(http.StatusOK, gin.H{"token": loginResponse.Token})
+	loginResponse, err := biz.Login(loginRequest)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": http.StatusBadRequest,
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": http.StatusOK,
+		"message": "success",
+		"token": loginResponse.Token,
+	})
 }
 
 func Logout(c *gin.Context) {
