@@ -49,4 +49,5 @@ func InitRedis() {
 	if clientErr != nil {
 		panic(clientErr)
 	}
+	log.Info("redis 连接成功")
 }
